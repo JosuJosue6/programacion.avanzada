@@ -17,6 +17,10 @@ public interface Lista<T> {
         return tmp;
     }
 
+    static <T> Lista<T> of(T head, Lista<T> tail){
+        return new Cons<>(head,tail);
+    }
+
     default int count(){
         return 1 + tail().count();
     }
@@ -44,5 +48,27 @@ public interface Lista<T> {
                 ? this.head()
                 : this.tail().get(index-1);
     }
+
+    default Lista<T> take(int n){
+        return n<=0  || Lista.Empty.isEmpty()
+                ? Lista.Empty
+                : Lista.of(this.head(), this.tail().take(n-1))
+                ;
+    }
+
+    default Lista<T> drop(int n){
+        return n<=0 || this.isEmpty()
+                ? this
+                : this.tail().drop(n-1)
+                ;
+    }
+
+    default Lista<T> concat (Lista<T> ls){
+        return this.isEmpty()
+        ? ls
+        : Lista.of(this.head(),this.tail().concat(ls));
+    }
+
+    
 
 }
