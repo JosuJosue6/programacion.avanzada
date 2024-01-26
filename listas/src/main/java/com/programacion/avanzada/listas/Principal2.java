@@ -18,5 +18,11 @@ public class Principal2 {
         System.out.println("take(2): "+Lista.Empty.take(2));
         System.out.println("drop(2); "+ls.drop(2));
         System.out.println("concat: "+ls.concat(Lista.of(6,7,8)));
+        System.out.println("invertir: " +ls.invertir());
+        System.out.println("fold-map: "+ ls.mapFold(t->"x"+t));
+        System.out.println("fold-map2: "+ ls.mapFold2(t->"x"+t));
+        System.out.println("fold-count: " +ls.countFold());
+        System.out.println("fold-reduce: " +ls.reduce(0,x->y->x+y));
+        System.out.println("fold-reduce: " +ls.reduce(x->y->x+y));
     }
 }
