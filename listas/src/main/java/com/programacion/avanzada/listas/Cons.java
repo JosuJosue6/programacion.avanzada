@@ -7,6 +7,7 @@ record Cons<T>(T head, Lista<T> tail)implements Lista<T> {
         return String.format("[%s,%s]", head, tail.toString());
     }
 
+
     @Override
     public boolean isEmpty() {
         return false;

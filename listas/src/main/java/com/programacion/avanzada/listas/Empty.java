@@ -1,6 +1,12 @@
 package com.programacion.avanzada.listas;
 
 class Empty implements Lista{
+
+    @Override
+    public String toString() {
+        return "Empty";
+    }
+
     @Override
     public Object head() {
         return null;
@@ -14,5 +20,9 @@ class Empty implements Lista{
     @Override
     public boolean isEmpty() {
         return true;
+    }
+
+    public int count(){
+        return 0;
     }
 }
