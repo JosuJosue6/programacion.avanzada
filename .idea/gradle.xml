@@ -14,6 +14,17 @@
             <option value="$PROJECT_DIR$/ejemplo02" />
             <option value="$PROJECT_DIR$/listas" />
             <option value="$PROJECT_DIR$/prueba" />
+            <option value="$PROJECT_DIR$/test" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/recursion" />
+        <option name="gradleHome" value="" />
+        <option name="gradleJvm" value="17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/recursion" />
           </set>
         </option>
       </GradleProjectSettings>
