@@ -14,4 +14,6 @@ public interface TailCall <T>{
     static <T> TailCall<T> tailSuspend(Supplier<TailCall<T>> next){
         return new Suspend<>(next);
     }
+
+
 }
