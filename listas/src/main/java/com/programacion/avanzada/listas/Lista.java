@@ -1,7 +1,13 @@
 package com.programacion.avanzada.listas;
 
+
+//import com.programacion.avanzada.recursion.TailCall;
+
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+//import static com.programacion.avanzada.recursion.TailCall.*;
+
 
 public interface Lista<T> {
 
@@ -16,7 +22,7 @@ public interface Lista<T> {
         return new Cons<>(h,t);
     }
 
-    static <T> Lista<T> of2(T ... elems){
+    static <T> Lista<T> of(T ... elems){
         var tmp = Lista.Empty;
         for (int i=elems.length-1;i>=0;i--){
             tmp = new Cons(elems[i],tmp);
@@ -29,20 +35,20 @@ public interface Lista<T> {
     }
 
     default Lista<T> prepend(T elem){
-        return new Cons<>(elem, this);
+        return Lista.of(elem, this);
     }
 
     default Lista<T> append(T elem){
         return  this.isEmpty()
-                ? new Cons<>(elem,Lista.Empty)
-                : new Cons<>(this.head(), this.tail().append(elem))
+                ? Lista.of(elem,Lista.Empty)
+                : Lista.of(this.head(), this.tail().append(elem))
                 ;
     }
 
     default Lista<T> insert(int index, T elem){
         return index == 0
-                ? new Cons<>(elem, this)
-                : new Cons<>(this.head(), this.tail().insert(index-1,elem))
+                ? Lista.of(elem, this)
+                : Lista.of(this.head(), this.tail().insert(index-1,elem))
                 ;
     }
 
@@ -55,7 +61,7 @@ public interface Lista<T> {
     default Lista<T> take (int n){
         return n<=0||this.isEmpty()
                 ? Lista.Empty
-                : new Cons<>(this.head(), this.tail().take(n-1));
+                : Lista.of(this.head(), this.tail().take(n-1));
     }
 
     default Lista<T> drop (int n){
@@ -67,7 +73,7 @@ public interface Lista<T> {
     default Lista<T> concat (Lista<T> ls){
         return this.isEmpty()
                 ? ls
-                : new Cons<>(this.head(), this.tail().concat(ls));
+                : Lista.of(this.head(), this.tail().concat(ls));
     }
 
     default <U> Lista<U> map(Function<T,U>fn){
@@ -109,7 +115,7 @@ public interface Lista<T> {
     }
 
     default Lista<T> appendFold(T elem){
-        return foldRight(Lista.of2(elem), t -> ls ->ls.prepend(t));
+        return foldRight(Lista.of(elem), t -> ls ->ls.prepend(t));
     }
 
     default T reduce(T identity, Function<T,Function<T,T>>fn){
@@ -153,6 +159,57 @@ public interface Lista<T> {
        }
        return Lista.Empty;
     }
+
+    //-------------------
+    static Lista<Integer> rangeAux(Lista<Integer> tmp, Integer start, Integer end) {
+        if(start<end) {
+            return rangeAux(tmp.prepend(start), start+1, end);
+        }
+        else {
+            return tmp;
+        }
+
+    }
+
+    static Lista<Integer> rangeP(Integer start, Integer end) {
+        return rangeAux(Lista.Empty, start, end).invertFolding();
+    }
+
+    static <T> Lista<T> unfold(T start, Function<T,T> f, Predicate<T> p) {
+        Lista<T> ret = Lista.Empty;
+        var tmp = start;
+
+        while(p.test(tmp)) {
+            ret = ret.prepend(tmp);
+            tmp = f.apply(tmp);
+        }
+
+        return ret.invertFolding();
+    }
+
+    static <T> Lista<T> unfoldRec(T start, Function<T,T> f, Predicate<T> p) {
+        if(p.test(start)==false) {
+            return Lista.Empty;
+        }
+        else {
+            return Lista.of( start, unfoldRec(f.apply(start), f, p) );
+        }
+    }
+
+    static <T> Lista<T> unfoldTailRecAux(Lista<T> tmp, T start, Function<T,T> f, Predicate<T> p) {
+        if(p.test(start)==false) {
+            return tmp;
+        }
+        else {
+            return unfoldTailRecAux(tmp.prepend(start), f.apply(start), f, p);
+        }
+    }
+
+    static <T> Lista<T> unfoldTailRec(T start, Function<T,T> f, Predicate<T> p) {
+        return unfoldTailRecAux(Lista.Empty, start, f, p)
+                .invertFolding();
+    }
+
 
     /*
     *Instrucciones
@@ -224,4 +281,101 @@ public interface Lista<T> {
             return ls;
         }*/
     }
+
+    //***************************************************************************
+    //TAREA
+    //Listas funcionales con métodos Tail-Recursivos
+    //Count
+//    default TailCall<Integer> countR() {
+//        return this.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> this.countR(x -> x++));
+//    }
+//
+//    //Append
+//    default <T> TailCall<Lista<T>> appendR (T elem){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//    default Lista<T> appendR(T elem) {
+//        return appendTailRec(elem, Lista.Empty);
+//    }
+//
+//    private Lista<T> appendTailRec(T elem, Lista<T> accumulator) {
+//        if (this.isEmpty()) {
+//            return accumulator.invertFolding().prepend(elem);
+//        } else {
+//            return this.tail().appendTailRec(elem, accumulator.prepend(this.head()));
+//        }
+//    }
+//
+//
+//    //Prepend
+//    default <T> TailCall<Lista<T>> prependR (T elem){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//    //Insert
+//    default <T> TailCall<Lista<T>> insertR (int index, T elem){
+//        return index == 0
+//                ? tailReturn(Lista.of(elem))
+//                : tailSuspend(() -> Lista.insertR(index, elem));
+//    }
+
+
+    //get
+//    default TailCall<Integer> getR(int index){
+//        return index == 0
+//                ? tailReturn((Integer) head())
+//                : tailSuspend(() -> this.getR(index-1));
+//    }
+//
+
+
+    //take
+//    default <T> TailCall<Lista<T>> takeR (int n){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//    //drop
+//    default <T> TailCall<Lista<T>> dropR (int n){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//
+//    //concat
+//    default <T> TailCall<Lista<T>> concatR (Lista<T> ls){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//    //map
+//    default  <T,U> TailCall<Lista<U>> mapR(Function<T,U> fn){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+//
+//    //invertir
+//    default <T> TailCall<Lista<T>> invertFoldingR(){
+//        return ls.isEmpty()
+//                ? tailReturn(0)
+//                : tailSuspend(() -> ls.count(x -> x + 1));
+//    }
+
+    //mapping
+
+    //reduce
+
+    //
+
 }

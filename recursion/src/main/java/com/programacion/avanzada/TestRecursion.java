@@ -1,7 +1,8 @@
 package com.programacion.avanzada;
 
-import com.programacion.avanzada.listas.Lista;
+import com.programacion.avanzada.lista.ListaTC;
 import com.programacion.avanzada.recursion.TailCall;
+
 import static com.programacion.avanzada.recursion.TailCall.*;
 public class TestRecursion {
 
@@ -17,13 +18,7 @@ public class TestRecursion {
                 : tailSuspend(()->sumRec(x+1,y-1));//asi usamos la memoria del heap
     }
 
-    static <T> TailCall<Lista<T>> lsRec (T ...elem){
-        var ls = Lista.of2(elem);
-        return !ls.isEmpty()
-                ? tailReturn(ls)
-                : tailSuspend(()->lsRec(elem))
-                ;
-    }
+
 
     public static void main(String[] args) {
 
@@ -46,10 +41,24 @@ public class TestRecursion {
         var suma = ret.eval();
         System.out.println(suma);
 */
-        //*********************************
-        var ls = lsRec(1,2,3);
+        //*********************************Tarea
+        var ls = ListaTC.of(1,2,3,4,5);
+        System.out.println("Count: "+ls.countR().eval());
 
-        System.out.println(ls);
+        System.out.println("Append: "+ls.appendR(99));
+
+        System.out.println("Get: "+ls.getR(1).eval());
+
+        //System.out.println("Take: "+ls.takeR(2).eval());
+
+        System.out.println("Drop: "+ls.dropR(1).eval());
+
+        var ls2 =ListaTC.of(6,7,8);
+        System.out.println("Concat: "+ls.concat(ls2));
+
+        System.out.println("Map: "+ls.map(x->x+1));
+
+        System.out.println("invertir: "+ls.invertirR());
 
     }
 }

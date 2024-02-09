@@ -60,7 +60,7 @@ public class Principal3 {
         // var ex44 = fn.apply(ex33).apply(4);
         // var ex55 = fn.apply(ex44).apply(5);
 
-        Lista<Integer> ls = Lista.of2(1, 2, 3, 4, 5);
+        Lista<Integer> ls = Lista.of(1, 2, 3, 4, 5);
         var exec = ls.foldLeft(ex0, fn);
         exec.exec();
     }

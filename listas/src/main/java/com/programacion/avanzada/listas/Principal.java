@@ -1,9 +1,10 @@
 package com.programacion.avanzada.listas;
 
+
 public class Principal {
     public static void main(String[] args) {
 
-        var n5 = new Cons<>(5,Lista.Empty);
+        var n5 = new Cons<>(5, Lista.Empty);
         var n4 = new Cons<>(4,n5);
         var n3 = new Cons<>(3,n4);
         var n2 = new Cons<>(2,n3);

@@ -1,6 +1,6 @@
-package com.programacion.avanzada.listas;
+package com.programacion.avanzada.lista;
 
-class Empty implements Lista {
+class EmptyTC implements ListaTC {
 
     @Override
     public String toString() {
@@ -13,7 +13,7 @@ class Empty implements Lista {
     }
 
     @Override
-    public Lista tail() {
+    public ListaTC tail() {
         return null;
     }
 
