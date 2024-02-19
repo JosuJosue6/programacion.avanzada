@@ -9,7 +9,9 @@ public interface BinTree <T>{
 
     T head();
 
-    BinTree<T> nodos();
+    BinTree<T> tail();
+
+    boolean isEmpty();
 
     static <T> BinTree<T> of (T h, BinTree<T> t){
         return new Cons<>(h,t);
@@ -24,7 +26,7 @@ public interface BinTree <T>{
     }
 
     default Integer size(){
-        return 1+ this.nodos().size();
+        return 1 + this.tail().size();
     }
 
     static <T>Lista<T> mitadIzquierda(Lista<T> ls){
@@ -44,7 +46,12 @@ public interface BinTree <T>{
             var lsI = mitadIzquierda(lsT);
             var lsD = mitadDerecha(lsT);
             var tmp = BinTree.of(lsH,lsI.head(), lsD.head());
-            return buildTreeAux(lsT,tmp);
+            if (!lsI.isEmpty()){
+                return buildTreeAux(lsI,tmp);
+            }else {
+                return buildTreeAux(lsD,tmp);
+            }
+
         }
     }
     static <T> BinTree<T> buildTree(Lista<T> ls){

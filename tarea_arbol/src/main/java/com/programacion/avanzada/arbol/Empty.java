@@ -7,7 +7,7 @@ public class Empty implements BinTree{
     }
 
     @Override
-    public BinTree nodos() {
+    public BinTree tail() {
         return null;
     }
 
@@ -18,5 +18,9 @@ public class Empty implements BinTree{
     @Override
     public String toString() {
         return "Empty";
+    }
+
+    public int count(){
+        return 0;
     }
 }
